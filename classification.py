@@ -11,6 +11,7 @@ import torch.nn as nn
 import torch.optim as optim
 from sklearn.metrics import accuracy_score
 from torch.utils.data import DataLoader, TensorDataset
+from torchvision import datasets, transforms
 
 #Getting the dataset
 iris = load_iris()
@@ -177,3 +178,22 @@ with torch.no_grad():
         y_test_pred.extend(predicted.numpy())
 test_accuracy = accuracy_score(Y_test, y_test_pred)
 print(f"Test Accuracy: {test_accuracy:.4f}")
+
+#MNIST Training
+# Transform to normalize the data to [0, 1] and flatten it
+transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
+
+# Download and load training and testing datasets
+train_dataset = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
+test_dataset = datasets.MNIST(root='./data', train=False, download=True, transform=transform)
+
+# DataLoader for batching
+train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
+
+# Check data shape
+for images, labels in train_loader:
+    print("Image batch dimensions:", images.shape)
+    print("Label batch dimensions:", labels.shape)
+    plt.show()
+    break
