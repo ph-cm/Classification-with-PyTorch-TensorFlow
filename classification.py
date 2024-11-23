@@ -112,7 +112,7 @@ model = NeuralNetwork(input_size, hidden_size, output_size)
 
 #Definning loss function and optimizer
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=0.01)
+optimizer = optim.Adam(model.parameters(), lr=0.01, weight_decay=0.01)
 
 #training loop
 num_epochs = 50
